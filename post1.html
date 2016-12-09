@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>刊登需求行程</title>
+        <link rel="shortcut icon" href="ico/favicon.ico" />
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js 讓 IE8 支援 HTML5 元素與媒體查詢 -->
+        <!-- 警告：Respond.js 無法在 file:// 協定下運作 -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link href="css/dropdown-hover.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <!--導覽列-->
+        <nav class="navbar navbar-default" role="navigation" id="navigation">            
+        </nav>
+        <!--導覽列-->
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="./">主頁</a>
+            <a class="breadcrumb-item" href="carPool.html">/ 找共乘</a>   
+            <a class="breadcrumb-item" href="post1.html">/ 刊登需求行程</a>            
+        </nav>
+        <!--路徑連結功能-->
+
+        <!--內文-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10" style="display: block;">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>
+                                        刊登服務行程
+                                    </label><br/>
+                                    <select id="postid">
+                                        <option value="new">新增一筆</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            起點:
+                                        </label>
+                                        <select id="Strplace">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            終點:
+                                        </label>
+                                        <select id="Endplace">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="#" class="btn btn-default" id="add">新增一筆</a>
+                            <div>
+                                <a href="#" class="btn btn-default" id="sub">存檔</a>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1" style="display: block;">
+                </div>
+            </div>          
+        </div>        
+        <hr> 
+        <div class="container" id="detail1"></div>
+        <div class="container" id="detail2"></div>
+        <!--內文-->
+        <!--登入小視窗-->
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+        <!--登入小視窗-->
+        <!--footer-->
+        <div class="panel-footer">
+            <div align='center' id="footer">
+            </div>
+        </div>
+        <!--footer-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/createfooter.js" type="text/javascript"></script>
+        <script src="js/createnavigation.js" type="text/javascript"></script>
+        <script>
+            var blockNo = 1;
+            $(document).ready(function () {
+                getplace();
+                getpostid();
+                addDocument();
+            });
+            $('#postid').change(function () {
+                if ($('#postid').val() !== 'new') {
+                    function myCallback() {
+                        if (xhr.readyState < 4) {
+                            return; // not ready yet
+                        }
+                        if (xhr.status !== 200) {
+                            alert('Error!'); // the HTTP status code is not OK
+                            return;
+                        }
+                        var data = JSON.parse(xhr.responseText);
+                        $('#Strplace').val(data.start);
+                        $('#Endplace').val(data.end);
+                        $('#licenseplate').val(data.licenseplate);
+                        $('#licenseplate,#Endplace,#Strplace').attr("disabled", "true");
+                        getDetail($('#postid').val());
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = myCallback;
+                    xhr.open('GET', 'Getpostdetail.php?misid=' + $('#postid').val(), true);
+                    xhr.send('');
+                } else {
+                    $('#Strplace').val('高應大燕巢校區');
+                    $('#Endplace').val('高應大建工校區');
+                    $('#licenseplate').get(0).selectedIndex = 0;
+                    $('#licenseplate,#Endplace,#Strplace').removeAttr("disabled");
+                }
+                $('#detail2').empty();
+                function getDetail(postid) {
+                    function myCallback() {
+                        if (xhr.readyState < 4) {
+                            return; // not ready yet
+                        }
+                        if (xhr.status !== 200) {
+                            alert('Error!'); // the HTTP status code is not OK
+                            return;
+                        }
+                        var data = JSON.parse(xhr.responseText);                        
+                        for (var key in data) {
+                            addDocument2(data[key].date, data[key].time, data[key].detail);
+                        }
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = myCallback;
+                    xhr.open('GET', 'Getpostschedule.php?misid=' + postid, true);
+                    xhr.send('');
+                }
+            });
+            $('#sub').click(function () {
+                if ($('#postid').val() === 'new') {
+                    function myCallback() {
+                        if (xhr.readyState < 4) {
+                            return; // not ready yet
+                        }
+                        if (xhr.status !== 200) {
+                            alert('Error!'); // the HTTP status code is not OK
+                            return;
+                        }
+                        var data = JSON.parse(xhr.responseText);
+                        insterdetail(data.massage);
+                    }
+                    var obj = {
+                        Strplace: $('#Strplace').val(),
+                        Endplace: $('#Endplace').val(),
+                        licenseplate: $('#licenseplate').val()
+                    };
+                    var json = JSON.stringify(obj);
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = myCallback;
+                    xhr.open('POST', 'InsertPost.php?table=driver', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(json);
+                } else {
+                    insterdetail($('#postid').val());
+                }
+
+                function insterdetail(id) {
+                    function myCallback() {
+                        if (xhr.readyState < 4) {
+                            return; // not ready yet
+                        }
+                        if (xhr.status !== 200) {
+                            alert('Error!'); // the HTTP status code is not OK
+                            return;
+                        }
+                        var data = JSON.parse(xhr.responseText);
+                        if (data.massage === 'success') {
+                            location.reload();
+                        } else if (data.massage === 'fail') {
+                            alert("系統錯誤");
+                        } else {
+                            alert("系統錯誤");
+                        }
+                    }
+                    var obj;
+                    var json = new Array();
+                    for (var i = 0; i < blockNo - 1; i++) {
+                        obj = {
+                            id: id,
+                            date: $('.date').val(),
+                            time: $('.time').val(),
+                            detail: $('.detail').val()
+                        };
+                        json[i] = JSON.stringify(obj);
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = myCallback;
+                    xhr.open('POST', 'InsertPostDetail.php?table=driver', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(json);
+                }
+            });
+            $('#add').click(addDocument);
+            function getplace() {
+                function myCallback() {
+                    if (xhr.readyState < 4) {
+                        return; // not ready yet
+                    }
+                    if (xhr.status !== 200) {
+                        alert('Error!'); // the HTTP status code is not OK
+                        return;
+                    }
+                    var data = JSON.parse(xhr.responseText);
+                    for (var key in data) {
+                        var tab = "<option value='" + data[key].name + "' id='str" + data[key].name + "'>" + data[key].name + "</option>";
+                        $('#Strplace').append(tab);
+                        var tab = "<option value='" + data[key].name + "' id='end" + data[key].name + "'>" + data[key].name + "</option>";
+                        $('#Endplace').append(tab);
+                    }
+                    $('#Strplace').val('高應大燕巢校區');
+                    $('#Endplace').val('高應大建工校區');
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = myCallback;
+                xhr.open('GET', 'Getplace.php', true);
+                xhr.send('');
+            }
+            function getpostid() {
+                function myCallback() {
+                    if (xhr.readyState < 4) {
+                        return; // not ready yet
+                    }
+                    if (xhr.status !== 200) {
+                        alert('Error!'); // the HTTP status code is not OK
+                        return;
+                    }
+                    var data = JSON.parse(xhr.responseText);
+                    for (var key in data) {
+                        var tab = "<option value='" + data[key].misid + "'>" + data[key].misid + "</option>";
+                        $('#postid').append(tab);
+                    }
+
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = myCallback;
+                xhr.open('GET', 'Getpostid.php?table=mission_passengerpost', true);
+                xhr.send('');
+            }
+            function removeBlock(id) {
+                blockNo--;
+                $('div').remove('#block' + id);
+            }
+            function setData() {
+                var NowDate = new Date();
+                var Y = NowDate.getFullYear();
+                var M = (NowDate.getMonth() < 10 ? '0' + NowDate.getMonth() : NowDate.getMonth());
+                var D = (NowDate.getDate() < 10 ? '0' + NowDate.getDate() : NowDate.getDate());
+                return Y + "-" + M + "-" + D;
+            }
+            function setTime() {
+                var NowDate = new Date();
+                var h = (NowDate.getHours() < 10 ? '0' + NowDate.getHours() : NowDate.getHours());
+                var m = (NowDate.getMinutes() < 10 ? '0' + NowDate.getMinutes() : NowDate.getMinutes());
+                return h + ":" + m;
+            }
+            function addDocument() {
+                blockNo++;
+                var block =
+                        "<div class='row' id='block" + blockNo + "'>" +
+                        "<div class='col-md-1'>" +
+                        "</div>" +
+                        "<div class='col-md-10' style='display: block;'>" +
+                        "<div class='col-md-10' style='display: block;'>" +
+                        "<div class='row'>" +
+                        "<div class='col-md-6'>" +
+                        "<label>" +
+                        "日期:" +
+                        "</label>" +
+                        "<input type='date' class='date' value='" + setData() + "'/>" +
+                        "</div>" +
+                        "<div class='col-md-6'>" +
+                        "<label>" +
+                        "時間:" +
+                        "</label>" +
+                        "<input type='time' class='time' value='" + setTime() + "'/>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='row'> " +
+                        "<div class='col-md-12'>" +
+                        "<label>" +
+                        "詳細:" +
+                        "</label>" +
+                        "<input type='text' class='detail' />" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='col-md-1' style='display: block;'>" +
+                        "<button onclick='removeBlock(" + blockNo + ")'>刪除</button>" +
+                        "</div>" +
+                        "</div>";
+                $('#detail1').append(block);
+            }
+            function addDocument2(date, time, detail) {
+                var block =
+                        "<div class='row'>" +
+                        "<div class='col-md-1'>" +
+                        "</div>" +
+                        "<div class='col-md-10' style='display: block;'>" +
+                        "<div class='col-md-10' style='display: block;'>" +
+                        "<div class='row'>" +
+                        "<div class='col-md-6'>" +
+                        "<label>" +
+                        "日期:" +
+                        "</label>" +
+                        "<p>" + date + "</p>" +
+                        "</div>" +
+                        "<div class='col-md-6'>" +
+                        "<label>" +
+                        "時間:" +
+                        "</label>" +
+                        "<p>" + time + "</p>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='row'> " +
+                        "<div class='col-md-12'>" +
+                        "<label>" +
+                        "詳細:" +
+                        "</label>" +
+                        "<p>" + detail + "</p>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='col-md-1' style='display: block;'>" +
+                        "</div>" +
+                        "</div>";
+                $('#detail2').append(block);
+            }
+        </script>
+    </body>
+</html>
+
+
+

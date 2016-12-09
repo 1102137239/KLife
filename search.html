@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>共乘接單</title>
+        <link rel="shortcut icon" href="ico/favicon.ico" />
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js 讓 IE8 支援 HTML5 元素與媒體查詢 -->
+        <!-- 警告：Respond.js 無法在 file:// 協定下運作 -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link href="css/dropdown-hover.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <!--導覽列-->
+        <nav class="navbar navbar-default" role="navigation" id="navigation">            
+        </nav>
+        <!--導覽列-->
+        <!--路徑連結功能-->
+        <nav class="breadcrumb">
+            <a class="breadcrumb-item" href="./">主頁</a>
+            <a class="breadcrumb-item" href="carPool.html">/ 找共乘</a>   
+            <a class="breadcrumb-item" href="search.html">/ 共乘接單</a>            
+        </nav>
+        <!--路徑連結功能-->
+
+        <!--內文-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md10 col-md-10" style="display: block;">
+                    <div class="row">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md0 col-md1 col-md-10" style="display: block;">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <p>
+                                        篩選條件
+                                    </p>
+                                </div>
+                                <div class="col-md2 col-md-2" style="display: block;">
+                                    <div class="form-group">
+                                        <label>
+                                            起點:
+                                        </label>
+                                        <select id="Strplace">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            終點:
+                                        </label>
+                                        <select id="Endplace">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md2 col-md-2" style="display: block;">
+                                    <div class="form-group">
+                                        <label>
+                                            日期
+                                        </label>
+                                        <input type="date" id="date">
+                                    </div>                                    
+                                </div>
+                                <div class="col-md2 col-md-2" style="display: block;">
+                                    <div class="form-group">
+                                        <label>
+                                            時間
+                                        </label>
+                                        <input type="time" id="Stime">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            時間
+                                        </label>
+                                        <input type="time" id="Etime">
+                                    </div>
+                                </div>
+                                <div class="col-md2 col-md-2" style="display: block;">
+                                    <div class="form-group">
+                                        <a href="#" class="btn btn-default" id="sub">搜尋</a>
+                                    </div>
+                                </div>
+                                <div class="col-md2" style="display: block;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md1" style="display: block;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md0 col-md1 col-md-10" style="display: block;">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <p>
+                                        排序
+                                    </p>
+                                </div>
+                                <div class="col-md2 col-md-2" style="display: block;">
+                                    <select>
+                                        <option value="pizza">
+                                            時間
+                                        </option>
+                                        <option value="salad">
+                                            搭乘次數
+                                        </option>
+                                        <option value="pizzasalad">
+                                            評價
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md1" style="display: block;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md1" style="display: block;">
+                </div>
+            </div>
+            <hr>
+            <div class="row" id="detail">
+
+            </div>
+        </div>
+        <!--內文-->
+        <!--登入小視窗-->
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+        <!--登入小視窗-->
+        <!--footer-->
+        <div class="panel-footer">
+            <div align='center' id="footer">
+            </div>
+        </div>
+        <!--footer-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/createfooter.js" type="text/javascript"></script>
+        <script src="js/createnavigation.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function () {
+                getplace();
+                var NowDate = new Date();
+                var h = (NowDate.getHours() < 10 ? '0' + NowDate.getHours() : NowDate.getHours());
+                var m = (NowDate.getMinutes() < 10 ? '0' + NowDate.getMinutes() : NowDate.getMinutes());
+                var Y = NowDate.getFullYear();
+                var M = (NowDate.getMonth() < 10 ? '0' + NowDate.getMonth() : NowDate.getMonth());
+                var D = (NowDate.getDate() < 10 ? '0' + NowDate.getDate() : NowDate.getDate());
+                $('#Etime').val(((h + 1) > 23 ? '23:59' : (h + 1) + ":" + m));
+                $('#Stime').val(h + ":" + m);
+                $('#date').val(Y + "-" + M + "-" + D);
+            });
+            function getplace() {
+                function myCallback() {
+                    if (xhr.readyState < 4) {
+                        return; // not ready yet
+                    }
+                    if (xhr.status !== 200) {
+                        alert('Error!'); // the HTTP status code is not OK
+                        return;
+                    }
+                    var data = JSON.parse(xhr.responseText);
+                    for (var key in data) {
+                        var tab = "<option value='" + data[key].name + "' id='str" + data[key].name + "'>" + data[key].name + "</option>";
+                        $('#Strplace').append(tab);
+                        var tab = "<option value='" + data[key].name + "' id='end" + data[key].name + "'>" + data[key].name + "</option>";
+                        $('#Endplace').append(tab);
+                    }
+                    $('#Strplace').val('高應大燕巢校區');
+                    $('#Endplace').val('高應大建工校區');
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = myCallback;
+                xhr.open('GET', 'Getplace.php', true);
+                xhr.send('');
+            }
+
+            $('#sub').click(function () {
+                $('#detail').empty();
+                var Strplace = $('#Strplace').val();
+                var Endplace = $('#Endplace').val();
+                var date = $('#date').val();
+                var Stime = $('#Stime').val();
+                var Etime = $('#Etime').val();
+                function myCallback() {
+                    if (xhr.readyState < 4) {
+                        return; // not ready yet
+                    }
+                    if (xhr.status !== 200) {
+                        alert('Error!'); // the HTTP status code is not OK
+                        return;
+                    }
+                    var data = JSON.parse(xhr.responseText);
+                    if (data.misdetid !== "Z") {
+                        addDocument(data.misdetid, data.start, data.datetime, data.name, data.end);
+                    }
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = myCallback;
+                xhr.open('GET', 'Getpostdetail2.php?table=driver&Strplace=' + Strplace + '&Endplace=' + Endplace + '&date=' + date + '&Stime=' + Stime + '&Etime=' + Etime, true);
+                xhr.send('');
+            });
+            function addDocument(misdetid, start, datetime, name, end) {
+                var block =
+                        "<div class='col-md-10'>" +
+                        "<div class='rowwell'>" +
+                        "<div class='col-md-2'>" +
+                        "<img src='https://s3.amazonaws.com/jetstrap-site/images/website/index/what_icon.png'>" +
+                        "</div>" +
+                        "<div class='col-md2 col-md-2' style='display:block;'>" +
+                        "<div class='well'>" +
+                        "<p>" +
+                        misdetid +
+                        "</p>" +
+                        "<p>" +
+                        name +
+                        "</p>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='col-md3 col-md-3' style='display:block;'>" +
+                        "<div class='well'>" +
+                        "<p>" +
+                        start +
+                        "</p>" +
+                        "<p>" +
+                        end +
+                        "</p>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='col-md3 col-md-3' style='display:block;'>" +
+                        "<div class='well'>" +
+                        "<p>" +
+                        datetime +
+                        "</p>" +
+                        "<p>" +
+                        "" +
+                        "</p>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='col-md2 col-md1 col-md-2' style='display:block;'>" +
+                        "<div class='well'>" +
+                        "<p>" +
+                        "" +
+                        "</p>" +
+                        "<p>" +
+                        "" +
+                        "</p>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='col-md-2'>" +
+                        "</div>";
+                $('#detail').append(block);
+            }
+        </script>
+
+    </body>
+</html>
+
+
+
