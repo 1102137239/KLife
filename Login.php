@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -9,15 +9,15 @@
         <center>
             <div id="login">
                 <form action="Actionlogin.php" method="POST">
-                    å¸³è™Ÿ:<br>
+                    ±b¸¹:<br>
                     <input type="text" name="account"><br>
-                    å¯†ç¢¼:<br>
+                    ±K½X:<br>
                     <input type="password" name="password"><br>                
                     <input type="hidden" name="refer" value="<?php echo (isset($_GET['refer'])) ? $_GET['refer'] : 'index.html'; ?>">
-                    <input type="submit" name="submit" value="ç™»å…¥">
+                    <input type="submit" name="submit" value="µn¤J">
                     <!--
-                    <a href="./Register.php"><input type="button" name=register" value="è¨»å†Š"></a>
-                    <a href="./Alterpw.php"><input type="button" name=register" value="å¿˜è¨˜å¯†ç¢¼"></a>
+                    <a href="./Register.php"><input type="button" name=register" value="µù¥U"></a>
+                    <a href="./Alterpw.php"><input type="button" name=register" value="§Ñ°O±K½X"></a>
                     -->
                 </form>
             </div>

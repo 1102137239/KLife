@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 $table=$_GET['table'];
 require('Config.php');

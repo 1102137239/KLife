@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 $Strplace = $_GET['Strplace'];
 $Endplace = $_GET['Endplace'];

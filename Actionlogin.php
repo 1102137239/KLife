@@ -1,11 +1,11 @@
-ï»¿<?php
+<?php
 
 $account = $_POST['account'];
 $password = $_POST['password'];
 $refer = $_POST['refer'];
 
 if ($account == '' || $password == '') {
-    echo "<script>alert('å¸³è™Ÿå¯†ç¢¼ç©ºç™½');</script>";
+    echo "<script>alert('±b¸¹±K½XªÅ¥Õ');</script>";
     header('Refresh: 0; Login.php?refer=' . urlencode($_POST['refer']));
     exit;
 } else {
@@ -18,7 +18,7 @@ if ($account == '' || $password == '') {
             $count++;
         }
         if ($count > 1) {
-            echo "<script>alert('è«‹å‹¿å˜—è©¦æ”»æ“Š');</script>";
+            echo "<script>alert('½Ğ¤Å¹Á¸Õ§ğÀ»');</script>";
             header('Refresh: 0;  Login.php?refer=' . urlencode($refer));
             exit;
         } else if ($count == 1) {
@@ -29,7 +29,7 @@ if ($account == '' || $password == '') {
             }
             header('Location: ' . $refer);
         } else {
-            echo "<script>alert('ç³»çµ±éŒ¯èª¤ï¼Œè«‹ç¨å¾Œåœ¨è©¦');</script>";
+            echo "<script>alert('¨t²Î¿ù»~¡A½Ğµy«á¦b¸Õ');</script>";
             header('Refresh: 0;  Login.php?refer=' . urlencode($refer));
             exit;
         }

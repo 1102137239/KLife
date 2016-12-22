@@ -1,4 +1,4 @@
-ï»¿<?php
+<?php
 session_start();
 require('Config.php');
 if (isset($_SESSION['account'])) {
@@ -23,7 +23,7 @@ if (isset($_SESSION['account'])) {
     }
 } else {
     $result [] = array(
-        "licenseplate" => 'ä½ æ²’æœ‰è»Š'
+        "licenseplate" => '§A¨S¦³¨®'
     );
 }
 echo json_encode($result);

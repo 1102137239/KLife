@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require('Config.php');
 try {
     $con = new PDO($dsn, $db_user, $db_pass);

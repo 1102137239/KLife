@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 $misid = $_GET['misid'];
 require('Config.php');
