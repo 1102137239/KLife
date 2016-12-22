@@ -4,7 +4,6 @@ $account = $_POST['account'];
 $password = $_POST['password'];
 $refer = $_POST['refer'];
 
-
 if ($account == '' || $password == '') {
     echo "<script>alert('帳號密碼空白');</script>";
     header('Refresh: 0; Login.php?refer=' . urlencode($_POST['refer']));
