@@ -261,19 +261,32 @@ and open the template in the editor.
                         "</div>" +
                         "<div class='col-md2 col-md1 col-md-2' style='display:block;'>" +
                         "<div class='well'>" +
-                        "<p>" +
-                        "" +
-                        "</p>" +
-                        "<p>" +
-                        "" +
-                        "</p>" +
+                        "<button onclick='select("+misdetid+")'>發送請求</button>"+
                         "</div>" +
                         "</div>" +
                         "</div>" +
                         "</div>" +
-                        "<div class='col-md-2'>" +
+                        "<div class='col-md-2'>" +                        
                         "</div>";
                 $('#detail').append(block);
+            }
+            function select(misdetid){
+                function myCallback() {
+                    if (xhr.readyState < 4) {
+                        return; // not ready yet
+                    }
+                    if (xhr.status !== 200) {
+                        alert('Error!'); // the HTTP status code is not OK
+                        return;
+                    }
+                    var data = JSON.parse(xhr.responseText);
+                    if (data.misdetid === "S") {
+                    }
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = myCallback;
+                xhr.open('GET', 'Selectschedule.php?misdetid=' + misdetid, true);
+                xhr.send('');
             }
         </script>
 

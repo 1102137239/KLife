@@ -6,15 +6,15 @@ try {
     $acc = $_SESSION['account'];
     $con = new PDO($dsn, $db_user, $db_pass);
     $sql = "
-	SELECT delegate,massage
-        FROM mission_deliverydetail
+	SELECT name,massage
+        FROM mission_deliverydetail MD JOIN member_member MM ON MD.delegate=MM.memid
         WHERE
                 misid = $misid
 	";
     $stm = $con->query($sql);
     foreach ($stm as $row) {
         $result [] = array(
-            "delegate" => $row['delegate'],
+            "delegate" => $row['name'],
             "massage" => $row['massage']
         );
     }

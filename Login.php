@@ -9,16 +9,12 @@
         <center>
             <div id="login">
                 <form action="Actionlogin.php" method="POST">
-                    ±b¸¹:<br>
+                    å¸³è™Ÿ:<br>
                     <input type="text" name="account"><br>
-                    ±K½X:<br>
+                    å¯†ç¢¼:<br>
                     <input type="password" name="password"><br>                
                     <input type="hidden" name="refer" value="<?php echo (isset($_GET['refer'])) ? $_GET['refer'] : 'index.html'; ?>">
-                    <input type="submit" name="submit" value="µn¤J">
-                    <!--
-                    <a href="./Register.php"><input type="button" name=register" value="µù¥U"></a>
-                    <a href="./Alterpw.php"><input type="button" name=register" value="§Ñ°O±K½X"></a>
-                    -->
+                    <input type="submit" name="submit" value="ç™»å…¥">
                 </form>
             </div>
         </center>

@@ -68,9 +68,9 @@ and open the template in the editor.
                     }
                     var data = JSON.parse(xhr.responseText);
                     for (var key in data) {
-                        addDocument(data[key].misid,data[key].name,data[key].message);
+                        addDocument(data[key].misid, data[key].name, data[key].message);
                     }
-                    
+
                 }
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = myCallback;
@@ -78,7 +78,7 @@ and open the template in the editor.
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.send();
             });
-            function addDocument(id,name, message) {
+            function addDocument(id, name, message) {
                 var block =
                         "<div class='row'>" +
                         "<div class='col-md-10'>" +
@@ -89,7 +89,7 @@ and open the template in the editor.
                         "<div class='col-md2 col-md-2' style='display: block;'>" +
                         "<div class='well'>" +
                         "<p>" +
-                        id+
+                        id +
                         "</p>" +
                         "<p>" +
                         name +
@@ -107,22 +107,12 @@ and open the template in the editor.
                         "</div>" +
                         "<div class='col-md4 col-md-4' style='display: block;'>" +
                         "<div class='well'>" +
-                        "<p>" +
-
-                        "</p>" +
-                        "<p>" +
-
-                        "</p>" +
+                        "<input type='text' id=" + id + ">" +
                         "</div>" +
                         "</div>" +
                         "<div class='col-md2 col-md1 col-md-2' style='display: block;'>" +
                         "<div class='well'>" +
-                        "<p>" +
-
-                        "</p>" +
-                        "<p>" +
-
-                        "</p>" +
+                        "<button onclick='select(" + id + ")'>發送請求</button>" +
                         "</div>" +
                         "</div>" +
                         "</div>" +
@@ -131,6 +121,31 @@ and open the template in the editor.
                         "</div>" +
                         "</div>";
                 $('#main').append(block);
+            }
+            function select(misid) {
+
+                function myCallback() {
+                    if (xhr.readyState < 4) {
+                        return; // not ready yet
+                    }
+                    if (xhr.status !== 200) {
+                        alert('Error!'); // the HTTP status code is not OK
+                        return;
+                    }
+                    var data = JSON.parse(xhr.responseText);
+                    if (data.misdetid === "S") {
+                    }
+                }
+                var obj = {
+                    misid: misid,
+                    massage: $('#'+misid).val()
+                };
+                var json = JSON.stringify(obj);
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = myCallback;
+                xhr.open('POST', 'Selectschedule2.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(json);
             }
         </script>
     </body>
